@@ -1,4 +1,6 @@
 ## IMPORTS
+import warnings
+warnings.filterwarnings("ignore") #somewhat questionable practice of ignoring all warnings.
 import streamlit as st
 import numpy as np
 import seaborn as sns
