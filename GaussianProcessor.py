@@ -342,15 +342,14 @@ The *White Kernel* is white noise and can be used to model noise (i.e. measureme
 
             ### PLOT KERNELS:
             expander = st.beta_expander("Visualize your kernels")
+            with st.spinner("Plotting kernels..."):
+                with expander:
+                    '''
+                    #### Covariance matrices
+                    Below are the covariance matrices for your selected kernels. The covariance matrices have $x$ on both axis. Each point on this matrice can be defined as $k(x_i, x_j)$. 
 
-            with expander:
-                '''
-                #### Covariance matrices
-                Below are the covariance matrices for your selected kernels. The covariance matrices have $x$ on both axis. Each point on this matrice can be defined as $k(x_i, x_j)$. 
-
-                A good intuition to have here, is that if $k(x_i, x_j)$ has a bright color, the kernel estimates that these points are similar, and should therefore learn from each other's value.
-                '''
-                with st.spinner("Plotting kernels..."):
+                    A good intuition to have here, is that if $k(x_i, x_j)$ has a bright color, the kernel estimates that these points are similar, and should therefore learn from each other's value.
+                    '''
                     st.pyplot(helper_functions.plot_kernels(kernel_select, interpret_dict, kernel, X))
 
             # Plot the function, the prediction and the 95% confidence interval based on
@@ -587,14 +586,14 @@ else:
 
                 expander = st.beta_expander("Visualize your kernels")
 
-                with expander:
-                    '''
-                #### Covariance matrices
-                Below are the covariance matrices for your selected kernels. The covariance matrices have $x$ on both axis. Each point on this matrice can be defined as $k(x_i, x_j)$. 
+                with st.spinner("Plotting kernels..."):
+                    with expander:
+                        '''
+                    #### Covariance matrices
+                    Below are the covariance matrices for your selected kernels. The covariance matrices have $x$ on both axis. Each point on this matrice can be defined as $k(x_i, x_j)$. 
 
-                A good intuition to have here, is that if $k(x_i, x_j)$ has a bright color, the kernel estimates that these points are similar, and should therefore learn from each other's value.
-                '''
-                    with st.spinner("Plotting kernels..."):
+                    A good intuition to have here, is that if $k(x_i, x_j)$ has a bright color, the kernel estimates that these points are similar, and should therefore learn from each other's value.
+                    '''
 
                         st.pyplot(helper_functions.plot_kernels(kernel_select, interpret_dict, kernel, x_train))
 
