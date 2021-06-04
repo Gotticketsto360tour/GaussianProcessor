@@ -317,7 +317,7 @@ The *White Kernel* is white noise and can be used to model noise (i.e. measureme
 
             with expander:
                 '''
-                #### General introduction to Kernels
+                ### General introduction to Kernels
                 Kernels are the way Gaussian Processes are specified. As a starter intuition, these kernels can be seen as the distribution of functions,
                 that the model is sampling from. In other words, the kernels specifies which family of functions the model should think the data has been generated from.
                 
