@@ -759,4 +759,6 @@ y_pred_test, sigma_test = gp.predict(x_test, return_std=True)
 # (6) Find dataset, where this is just brilliant
 # (7) Add kernels to Upload your own data.
 # (8) Consider having the second ExpSine as a multiplicative component
-# (9) Ensure reproducibility with same settings
+# (9) Ensure reproducibility with same settings - DONE!
+# (10) Check whether final kernel is really the right one - when it fits, does it look different?
+# (11) Set spinner for plot kernels
