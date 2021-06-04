@@ -228,7 +228,7 @@ $$k(x_i, x_j) = \exp \\left(- \\frac{2 \sin(\pi d (x_i, x_j)/p)}{l^2}\\right)$$
 
                 interpret_dict["RBF"] = rbf_weight * RBF(length_scale=rbf)
                 string_dict["RBF"] = '''### RBF
-The *RGB* kernel treats points that are close to each other in $x$ as being close in $y$.'''
+The *RGF* kernel treats points that are close to each other in $x$ as being close in $y$.'''
 
             if "Matern" in kernel_select:
                 expander = st.sidebar.beta_expander("Matern")
@@ -350,7 +350,8 @@ The *White Kernel* is white noise and can be used to model noise (i.e. measureme
 
                 A good intuition to have here, is that if $k(x_i, x_j)$ has a bright color, the kernel estimates that these points are similar, and should therefore learn from each other's value.
                 '''
-                st.pyplot(helper_functions.plot_kernels(kernel_select, interpret_dict, kernel, X))
+                with st.spinner("Plotting kernels..."):
+                    st.pyplot(helper_functions.plot_kernels(kernel_select, interpret_dict, kernel, X))
 
             # Plot the function, the prediction and the 95% confidence interval based on
             # the MSE
@@ -593,7 +594,9 @@ else:
 
                 A good intuition to have here, is that if $k(x_i, x_j)$ has a bright color, the kernel estimates that these points are similar, and should therefore learn from each other's value.
                 '''
-                    st.pyplot(helper_functions.plot_kernels(kernel_select, interpret_dict, kernel, x_train))
+                    with st.spinner("Plotting kernels..."):
+
+                        st.pyplot(helper_functions.plot_kernels(kernel_select, interpret_dict, kernel, x_train))
 
                 #initialize the processor
                 gp = GaussianProcessRegressor(kernel=kernel,
@@ -762,3 +765,7 @@ y_pred_test, sigma_test = gp.predict(x_test, return_std=True)
 # (9) Ensure reproducibility with same settings - DONE!
 # (10) Check whether final kernel is really the right one - when it fits, does it look different?
 # (11) Set spinner for plot kernels
+# (12) Insert a "what to look out for in terms of mistakes"
+# (13) Consider scaling everything - does that make things better? 
+# (14) Insert period for exp1 as well
+# (15) should all weights just be between 0 and 1?
