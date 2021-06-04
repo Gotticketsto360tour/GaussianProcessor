@@ -9,7 +9,7 @@ from sklearn import gaussian_process
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import Matern, WhiteKernel, ConstantKernel, RBF, RationalQuadratic, ExpSineSquared, DotProduct, RBF
 
-@st.cache(allow_output_mutation=True)
+#@st.cache(allow_output_mutation=True)
 def get_RMSE(y, y_pred):
     listing = [(y[i]-y_pred[i])**2 for i in range(len(y))]
     return sum(listing)/len(listing)
@@ -18,7 +18,7 @@ def get_RMSE(y, y_pred):
 def f(x, lin_trend, sinus, sinus_2, sinus_2_period, poly_trend):
     return lin_trend * x + sinus * np.sin(x) + sinus_2 * np.sin(sinus_2_period * x) + poly_trend * x**2
 
-@st.cache(allow_output_mutation=True)
+#@st.cache(allow_output_mutation=True)
 def get_kernel(kernel_select, interpret_dict):
     
     for i, ele in enumerate(kernel_select):
@@ -30,7 +30,7 @@ def get_kernel(kernel_select, interpret_dict):
     
     return kernel
 
-@st.cache(allow_output_mutation=True)
+#@st.cache(allow_output_mutation=True)
 def plot_kernels(kernel_select, interpret_dict, kernel, X):
 
         #plot kernels
@@ -51,7 +51,7 @@ def plot_kernels(kernel_select, interpret_dict, kernel, X):
         fig.tight_layout(pad=1.08, h_pad=None, w_pad=None, rect=None)
         return fig
 
-@st.cache(allow_output_mutation=True)
+#@st.cache(allow_output_mutation=True)
 def generate_interpret_dict(kernel_select):
     interpret_dict = {
                     "RationalQuadratic": rational_weight * RationalQuadratic(length_scale = rational, alpha = alpha),
