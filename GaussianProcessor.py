@@ -238,6 +238,8 @@ The *RGF* kernel treats points that are close to each other in $x$ as being clos
                     matern_nu = st.slider("Mattern Nu", min_value = 0.1, max_value = 10.0, value = 1.5) #NOTE: Parameter changed to max 10, else it can break
                 
                 interpret_dict["Matern"] = matern_weight * Matern(length_scale=matern_length, nu = matern_nu)
+                string_dict["Matern"] = '''### Matern
+$$C_{\nu }(d)=\sigma ^{2}{\frac {2^{1-\nu }}{\Gamma (\nu )}}{\Bigg (}{\sqrt {2\nu }}{\frac {d}{\rho }}{\Bigg )}^{\nu }K_{\nu }{\Bigg (}{\sqrt {2\nu }}{\frac {d}{\rho }}{\Bigg )}$$'''
             
             if "WhiteKernel" in kernel_select:
                 expander = st.sidebar.beta_expander("WhiteKernel")
@@ -763,8 +765,9 @@ y_pred_test, sigma_test = gp.predict(x_test, return_std=True)
 # (8) Consider having the second ExpSine as a multiplicative component
 # (9) Ensure reproducibility with same settings - DONE!
 # (10) Check whether final kernel is really the right one - when it fits, does it look different?
-# (11) Set spinner for plot kernels
+# (11) Set spinner for plot kernels - DONE!
 # (12) Insert a "what to look out for in terms of mistakes"
 # (13) Consider scaling everything - does that make things better? 
 # (14) Insert period for exp1 as well
 # (15) should all weights just be between 0 and 1?
+# (16) Make explanations for all kernels finished in the current format.
