@@ -9,6 +9,7 @@ import os
 import re
 import helper_functions
 import matplotlib.pyplot as plt
+import base64
 from sklearn import gaussian_process
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import Matern, WhiteKernel, ConstantKernel, RBF, RationalQuadratic, ExpSineSquared, DotProduct, RBF
@@ -23,7 +24,7 @@ sns.set_palette(palette='deep')
 sns_c = sns.color_palette(palette='deep')
 
 st.set_page_config(
-    page_title="Gaussian Processes",
+    page_title="Gaussian Processor",
     page_icon="bayes_bois.png",
     initial_sidebar_state="expanded",
     )
@@ -33,7 +34,7 @@ st.image("bayes_bois.png", width = 100)
 ## TITLE
 
 '''
-# Gaussian Processes
+# Gaussian Processor
 '''
 
 ### GLOBAL PARAMS
@@ -42,6 +43,13 @@ radio_checker = st.selectbox("What do you want to do?", ["Learn and simulate", "
 ## SIMULATION OPTION:
 
 if radio_checker == "Learn and simulate":
+
+    '''
+    # Learning and simulating
+    '''
+    '''
+    Welcome to the Gaussian Processor! To begin simulating, simply adjust the sliders below and press the *Simulate Data*-button. 
+    '''
         
     '''
     ## Simulating Data 
@@ -87,68 +95,56 @@ if radio_checker == "Learn and simulate":
         submitted = st.form_submit_button("Simulate Data") 
 
         if submitted:
-            st.success("Parameters chosen! Select kernels and start fitting your model on the sidebar to the left.")
+            x = np.atleast_2d(np.linspace(0, x_end, 1000)).T
+            x_test = np.atleast_2d(np.linspace(x_end, x_end+after_end, 500)).T
+            x = np.append(x, x_test)
+            fig, ax = plt.subplots(1, 1, figsize=(12, 5)) 
+            ax.plot(x, helper_functions.f(x, lin_trend, sinus, sinus_2, sinus_2_period, poly_trend), 'r:', label=rf'$f(x) = {lin_trend} \cdot x + {poly_trend} \cdot x^2 +{sinus} \cdot \sin(x) + {sinus_2} \cdot \sin({sinus_2_period} \cdot x)$')
+            ax.axvline(x_end, label = "training test split")
+            ax.set(xlabel = "$x$", ylabel = "$f(x)$")
+            ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.2),
+                fancybox=True, shadow=True, ncol=2)
+            st.pyplot(fig)
 
-    '''
-    ## Guide to exploring the app
-    '''
+            ## success button
+            st.success("Data has been simulated!")
+            st.success("Try exploring different kernels in the sidebar to the left. When you are ready, press the *Fit the Model*-button.")
 
-    expander = st.beta_expander("Click for a guided tour")
+            '''
+            ## Guide to exploring the app
+            '''
 
-    with expander:
-        f'''
-        ### Data Generation
-        This app was made to showcase $sklearn$'s GaussianProcesses - an extremely useful method for time-series forecasting.
-        Above you will find sliders, which specify the data generating function. Currently, the data-generating function is
+            expander = st.beta_expander("Click for a guided tour")
 
-        $$f(x) = {lin_trend} \cdot x + {poly_trend} \cdot x^2 + {sinus} \cdot \sin(x) + {sinus_2} \cdot \sin({sinus_2_period} \cdot x)$$
+            with expander:
+                f'''
+                ### Data Generation
+                This app was made to showcase $sklearn$'s GaussianProcesses - an extremely useful method for time-series forecasting.
+                Above you will find sliders, which specify the data generating function. Currently, the data-generating function is
 
-        Optionally, the data generating function is not perfect. This can be used to simulate measurement errors. This is specified in
-        the "Noise Amount"-slider. The data is sampled from a Gaussian distribution around the point ($x$), with a standard deviation equal to 
-        the Noise Amount:
+                $$f(x) = {lin_trend} \cdot x + {poly_trend} \cdot x^2 + {sinus} \cdot \sin(x) + {sinus_2} \cdot \sin({sinus_2_period} \cdot x)$$
 
-        $$x \sim N(f(x), {noise_amount})$$
+                Optionally, the data generating function is not perfect. This can be used to simulate measurement errors. This is specified in
+                the "Noise Amount"-slider. The data is sampled from a Gaussian distribution around the point ($x$), with a standard deviation equal to 
+                the Noise Amount:
 
-        ### Kernels
-        Kernels are the way Gaussian Processes are specified. As a starter intuition, these kernels can be seen as which distribution of functions,
-        that the model is sampling from. The kernels can be combined by either multiplying or adding them together to create
-        more complex kernels. In this app, all kernels are combined by adding them. For all kernels, $k_i$, you can specify their weight, $w_i$:
+                $$x \sim N(f(x), {noise_amount})$$
 
-        $$k = \sum_i w_i \cdot k_i$$
+                ### Train and Test
+                The model currently sees {n} points between 0 and {x_end}. The MSE is calculated for the test set. 
 
-        The only exception to this rule is the Dot Product Squared kernel. It is simply the Dot Product times itself.
-
-        Some intuitions are useful here. Here is what we have learned so far. 
-
-        The *Dot Product* can be viewed as a linear kernel. It can be used to sample from models that capture the linear trend in the data.
-
-        The *Dot Product Squared* is maybe not surprisingly a polynomial kernel. It can be used to sample from models that capture a quadratic trend in the data.
-
-        The *Exponential Sine Squared* kernels can be used to sample models that capture the periodic/cyclical relations in the data. The
-        reason that there are two is to model two different cycles. The second Exponential Sine Squared Kernel can adjusted in terms of its periodicity.
-        
-        The *White Kernel* is white noise and can be used to model noise (i.e. measurement errors) in the data. Furthermore, it is useful to make the model fit the data.
-
-        The *RGB* kernel treats points that are close to each other in $x$ as being close in $y$. 
-
-        The *Rational Quadratic* is still a bit of a mystery. But it seems it might be useful if there was a non-linear trend that we needed to capture.
-
-        Almost all kernels have an $l$-parameter, which can be understood as how local or global the kernel is. The larger $l$, the more global the kernel is. 
-
-        ### Train and Test
-        The model currently sees {n} points between 0 and {x_end}. The MSE is calculated for the test set. 
-
-        ### Known Issues
-        Currently, when parameters in the kernels are specified, for which there is no good solution, the kernel will default to the last value,
-        which gave valid responses. If nothing you do changes the plot, please try to reset the kernels and start over. Another alternative fix is to 
-        play around with the data by adding additional points or extending the range of the training data. 
-        '''
+                ### Known Issues
+                Currently, when parameters in the kernels are specified, for which there is no good solution, the kernel will default to the last value,
+                which gave valid responses. If nothing you do changes the plot, please try to reset the kernels and start over. Another alternative fix is to 
+                play around with the data by adding additional points or extending the range of the training data. 
+                '''
 
     with st.sidebar.form("my_sidebar_form"):
 
             ### initialize interpret dict
 
             interpret_dict = {}
+            string_dict = {}
 
             kernel_select = st.sidebar.multiselect("Select Kernels", ["RationalQuadratic", "ExpSineSquared", "ExpSineSquared_2", "DotProduct", "WhiteKernel", "RBF", "Matern", "DotProduct Squared"], "DotProduct")
 
@@ -164,6 +160,14 @@ if radio_checker == "Learn and simulate":
                     alpha = st.slider("Rational Quadratic Alpha", min_value = 0.1, max_value = 100.0)
                 
                 interpret_dict["RationalQuadratic"] = rational_weight * RationalQuadratic(length_scale = rational, alpha = alpha)
+                string_dict["RationalQuadratic"] = '''### RationalQuadratic
+The *Rational Quadratic* is still a bit of a mystery. But it seems it might be useful if there was a non-linear trend that we needed to capture.
+
+#### Mathematical equation
+$$k(x_i, x_j) = \\left(1 + \\frac{d(x_i, x_j)^2}{2 \\alpha l^2} \\right)$$
+
+where $d(.,.)$ is the Euclidean distance.  
+'''
 
             if "DotProduct" in kernel_select:
 
@@ -173,20 +177,40 @@ if radio_checker == "Learn and simulate":
                     sigma_dot = st.slider("Sigma for DotProduct", min_value = 0.0, max_value = 100.0)
                 
                 interpret_dict["DotProduct"] = dot_weight * DotProduct(sigma_0 = sigma_dot)
+                string_dict["DotProduct"] = '''### DotProduct 
+The *Dot Product* can be viewed as a linear kernel. It can be used to sample from models that capture the linear trend in the data.
+
+#### Mathematical equation
+$$k(x_i, x_j) = \sigma ^2 _0 + x_i \cdot x_j$$
+'''
 
             if "DotProduct Squared" in kernel_select:
                 expander = st.sidebar.beta_expander("Dot Product Squared")
                 with expander:
                     dot_squared_weight = st.slider("Dot Product Squared Weight", min_value = 0.1, max_value = 100.0, value = 1.0)
                     squared_sigma = st.slider("Sigma for DotProduct Squared", min_value = 0.0, max_value = 100.0)
-                interpret_dict["DotProduct Squared"] = dot_squared_weight * DotProduct(sigma_0=squared_sigma) * DotProduct(sigma_0=squared_sigma)
 
+                interpret_dict["DotProduct Squared"] = dot_squared_weight * DotProduct(sigma_0=squared_sigma) * DotProduct(sigma_0=squared_sigma)
+                string_dict["DotProduct Squared"] = '''### DotProduct Squared
+The *Dot Product Squared* is maybe not surprisingly a polynomial kernel. It can be used to sample from models that capture a quadratic trend in the data.
+
+#### Mathematical equation
+$$k(x_i, x_j) = (\sigma ^2 _0 + x_i \cdot x_j)^2$$
+'''
+                
             if "ExpSineSquared" in kernel_select:
                 expander = st.sidebar.beta_expander("Exponential Sine Squared")
                 with expander:
                     sine_weight = st.slider("Exp Sine Squared Weight", min_value = 0.1, max_value = 100.0, value = 1.0)
                     exp_sine_1 = st.slider("First Exp Sine Squared L", min_value = 0.1, max_value = 100.0)
+
                 interpret_dict["ExpSineSquared"] = sine_weight * ExpSineSquared(length_scale = exp_sine_1)
+                string_dict["ExpSineSquared"] = '''### ExpSineSquared
+The *Exponential Sine Squared* kernels can be used to sample models that capture the periodic/cyclical relations in the data. The reason that there are two is to model two different cycles. The second Exponential Sine Squared Kernel can adjusted in terms of its periodicity.
+
+#### Mathematical equation
+$$k(x_i, x_j) = \exp \\left(- \\frac{2 \sin(\pi d (x_i, x_j)/p)}{l^2}\\right)$$
+'''
 
             if "ExpSineSquared_2" in kernel_select:
                 expander = st.sidebar.beta_expander("Exponential Sine Squared 2")
@@ -201,7 +225,10 @@ if radio_checker == "Learn and simulate":
                 with expander:
                     rbf_weight = st.slider("RBF Weight", min_value = 0.1, max_value = 100.0, value = 1.0)
                     rbf = st.slider("RBF L", min_value = 0.1, max_value = 100.0)
+
                 interpret_dict["RBF"] = rbf_weight * RBF(length_scale=rbf)
+                string_dict["RBF"] = '''### RBF
+The *RGB* kernel treats points that are close to each other in $x$ as being close in $y$.'''
 
             if "Matern" in kernel_select:
                 expander = st.sidebar.beta_expander("Matern")
@@ -209,6 +236,7 @@ if radio_checker == "Learn and simulate":
                     matern_weight = st.slider("Mattern Weight", min_value = 0.1, max_value = 100.0, value = 1.0)
                     matern_length = st.slider("Mattern Length", min_value = 0.1, max_value = 100.0, value = 1.0)
                     matern_nu = st.slider("Mattern Nu", min_value = 0.1, max_value = 10.0, value = 1.5) #NOTE: Parameter changed to max 10, else it can break
+                
                 interpret_dict["Matern"] = matern_weight * Matern(length_scale=matern_length, nu = matern_nu)
             
             if "WhiteKernel" in kernel_select:
@@ -216,9 +244,12 @@ if radio_checker == "Learn and simulate":
                 with expander:
                     white_weight = st.slider("White Noise Weight", min_value = 0.1, max_value = 100.0, value = 1.0)
                     white_noise = st.slider("NoiseLevel", min_value = 0.1, max_value = 10.0)
-                interpret_dict["WhiteKernel"] = white_weight * WhiteKernel(white_noise)
 
-            submitted_sidebar = st.form_submit_button("Fit the model")
+                interpret_dict["WhiteKernel"] = white_weight * WhiteKernel(white_noise)
+                string_dict["WhiteKernel"] = ''' ### White Kernel
+The *White Kernel* is white noise and can be used to model noise (i.e. measurement errors) in the data. Furthermore, it is useful to make the model fit the data.'''
+
+            submitted_sidebar = st.form_submit_button("Fit the Model")
 
     if submitted_sidebar:
 
@@ -279,10 +310,45 @@ if radio_checker == "Learn and simulate":
                 errors_mean = errors.mean()
                 errors_std = errors.std()
 
-            ### PLOT KERNELS:
-            expander = st.beta_expander("Kernels")
+            '''
+            ### Kernels
+            '''
+            expander = st.beta_expander("Read about your kernels")
 
             with expander:
+                '''
+                Kernels are the way Gaussian Processes are specified. As a starter intuition, these kernels can be seen as the distribution of functions,
+                that the model is sampling from. In other words, the kernels specifies which family of functions the model should think the data has been generated from.
+                
+                The kernels can be combined by either multiplying or adding them together to create
+                more complex kernels. In this app, all kernels are combined by adding them. 
+                
+                For all kernels, $k_i$, you can specify their weight, $w_i$:
+
+                $$k = \sum_i w_i \cdot k_i$$
+
+                Almost all kernels have an $l$-parameter, which can be understood as how local or global the patterns should be estimated. The larger $l$, the more global the kernel is. Larger $l$ will normally result in more smooth functions.
+                
+                Different kernels have different optional parameters, for instance $l$ and $w$. These can be tweaked for each kernel in the sidebar to the left.
+                
+                In the following paragraph, only your choices of kernels will be explained. If you want to explore other kernels, try including them in your model to see what they do and when they are useful.
+
+                '''
+                string = ""
+                for i in string_dict:
+                    string += string_dict.get(i) + "\n"
+                string
+
+            ### PLOT KERNELS:
+            expander = st.beta_expander("Visualize your kernels")
+
+            with expander:
+                '''
+                #### Covariance matrices
+                Below are the covariance matrices for your selected kernels. The covariance matrices have $x$ on both axis. Each point on this matrice can be defined as $k(x_i, x_j)$. 
+
+                A good intuition to have here, is that if $k(x_i, x_j)$ has a bright color, the kernel estimates that these points are similar, and should therefore learn from each other's value.
+                '''
                 st.pyplot(helper_functions.plot_kernels(kernel_select, interpret_dict, kernel, X))
 
             # Plot the function, the prediction and the 95% confidence interval based on
@@ -352,17 +418,24 @@ if radio_checker == "Learn and simulate":
 
 else:
 
+    '''
+    # Upload your own data
+    '''
+
     data_file = st.file_uploader("Upload CSV",type=['csv'])
 
     if data_file is not None:
-        '''File loaded!'''
+        st.success('''File loaded!''')
         #file_details = {"Filename":data_file.name,"FileType":data_file.type,"FileSize":data_file.size}
         #st.write(file_details)
 
         #read the data
         df = pd.read_csv(data_file) 
 
-        df
+        expander = st.beta_expander("Show dataframe")
+
+        with expander:
+            df
 
         #form for batching inputs 
         with st.form("my_form"):
@@ -477,9 +550,13 @@ else:
                     white_noise = st.slider("NoiseLevel", min_value = 0.1, max_value = 10.0)
                 interpret_dict["WhiteKernel"] = white_weight * WhiteKernel(white_noise)
 
-            submitted_sidebar = st.form_submit_button("Fit the model")
+            submitted_sidebar = st.form_submit_button("Fit the Model")
 
         if submitted_sidebar:
+
+            '''
+            ## Fitted values
+            '''
                 
             np.random.seed(1)
 
@@ -506,9 +583,15 @@ else:
                 x_train = np.atleast_2d(x_train).T
                 x_test = np.atleast_2d(x_test).T
 
-                expander = st.beta_expander("Kernels")
+                expander = st.beta_expander("Visualize your kernels")
 
                 with expander:
+                    '''
+                #### Covariance matrices
+                Below are the covariance matrices for your selected kernels. The covariance matrices have $x$ on both axis. Each point on this matrice can be defined as $k(x_i, x_j)$. 
+
+                A good intuition to have here, is that if $k(x_i, x_j)$ has a bright color, the kernel estimates that these points are similar, and should therefore learn from each other's value.
+                '''
                     st.pyplot(helper_functions.plot_kernels(kernel_select, interpret_dict, kernel, x_train))
 
                 #initialize the processor
@@ -596,10 +679,83 @@ else:
 
                 with col3:
                     st.write("")
+            
+            '''
+            ## Code for running Gaussian Processes
+            '''
+            ### CODE
+            ### NOTE: Currently, the code doesn't include real names and specifications.
+            expander = st.beta_expander("Show code")
+            with expander:
+                code_block = f'''
+import numpy as np
+import pandas as pd
+from sklearn.gaussian_process import GaussianProcessRegressor
+from sklearn.gaussian_process.kernels import Matern, WhiteKernel, ConstantKernel, RBF, RationalQuadratic, ExpSineSquared, DotProduct, RBF
+
+#ensure reproducibility by having a random seed
+np.random.seed(1)
+
+#define function for splitting in a train and test set
+def time_split(df, splitter):
+        percent = len(df['{x_select}']) / 100
+        index = round(percent * splitter)
+
+        train = df[df['{x_select}'] <= index]
+        test = df[df['{x_select}'] > index] 
+        return train, test
+
+#use the function
+train, test = time_split(df, {percent_split})
+
+#extract values
+x_train, y_train = train['{x_select}'].values, train['{y_select}'].values
+
+x_test, y_test = test['{x_select}'].values, test['{y_select}'].values
+
+#specify the kernel
+kernel = {kernel}
+
+#Initialize the Gaussian processor with the kernel
+gp = GaussianProcessRegressor(kernel=kernel,
+                                    n_restarts_optimizer=9)
+
+#make arrays 2d
+x_train = np.atleast_2d(x_train).T
+x_test = np.atleast_2d(x_test).T
+
+## fit the model
+gp.fit(x_train, y_train)
+
+#predict on the training data
+y_pred, sigma = gp.predict(x_train, return_std=True)
+
+# predict on the test data
+y_pred_test, sigma_test = gp.predict(x_test, return_std=True)
+'''
+                st.code(code_block)
+
+            ### Downloadable link
+            y_column = np.append(y_pred, y_pred_test) 
+            sigma_column = np.append(sigma, sigma_test)
+
+            df["y_pred"] = y_column
+            df["sigma"] = sigma_column
+
+            coded_data = base64.b64encode(df.to_csv(index = False).encode()).decode()
+            st.markdown(
+                f'<a href="data:file/csv;base64,{coded_data}" download="GP_predictions.csv">Click here to download the .csv file with predictions</a>',
+                unsafe_allow_html = True
+            )
 
 
 ## TODO:
-# (1) lav infrastruktur til hele svineriet, og sæt så meget fælles op som muligt
-# (2) lav alt til funktioner og eksperimenter med st.cache decoratoren
-# (3) lav plots i altair istedet
-# (4) lav interpret dict ud fra den selection der er.
+# (1) Gem værdierne i en dataframe ( https://codingfordata.com/8-simple-and-useful-streamlit-tricks-you-should-know/) - DONE!
+# (2) Add a reminder that it is easier to navigate and understand the different kernels from the simulated data.
+# (3) Gentænk strukturen for "Guided Tour". Tror bare det skal komme som sin egen ting, men med containers indeni.
+# (4) Enforce exploration in first section with kernels explained only if they are chosen. - DONE!
+# (5) Read about human in the loop
+# (6) Find dataset, where this is just brilliant
+# (7) Add kernels to Upload your own data.
+# (8) Consider having the second ExpSine as a multiplicative component
+# (9) Ensure reproducibility with same settings
