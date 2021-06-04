@@ -239,7 +239,7 @@ The *RGF* kernel treats points that are close to each other in $x$ as being clos
                 
                 interpret_dict["Matern"] = matern_weight * Matern(length_scale=matern_length, nu = matern_nu)
                 string_dict["Matern"] = '''### Matern
-$$C_{\\nu }(d)=\\sigma ^{2}{\\frac {2^{1-\\nu }}{\Gamma (\\nu )}}{\Bigg (}{\sqrt {2\\nu }}{\\frac {d}{\\rho }}{\Bigg )}^{\\nu }K_{\\nu }{\Bigg (}{\sqrt {2\\nu }}{\frac {d}{\\rho }}{\Bigg )}$$'''
+$$C_{\\nu }(d)=\\sigma ^{2}{\\frac {2^{1-\\nu }}{\Gamma (\\nu )}}{\Bigg (}{\sqrt {2\\nu }}{\\frac {d}{\\rho }}{\Bigg )}^{\\nu }K_{\\nu }{\Bigg (}{\sqrt {2\\nu }}{\\frac {d}{\\rho }}{\Bigg )}$$'''
             
             if "WhiteKernel" in kernel_select:
                 expander = st.sidebar.beta_expander("WhiteKernel")
