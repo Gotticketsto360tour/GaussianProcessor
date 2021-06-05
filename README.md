@@ -18,3 +18,5 @@ streamlit run Gaussian_Processor.py
 ```
 
 which will open the app. 
+
+If you do not have a good data-set available, the dataset *AirPassengers.csv* is included here, which is ideal for modelling. 
