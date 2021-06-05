@@ -11,7 +11,7 @@ from sklearn.gaussian_process.kernels import Matern, WhiteKernel, ConstantKernel
 
 #@st.cache(allow_output_mutation=True)
 def get_RMSE(y, y_pred):
-    listing = [(y[i]-y_pred[i])**2 for i in range(len(y))]
+    listing = [np.sqrt((y[i]-y_pred[i])**2) for i in range(len(y))]
     return sum(listing)/len(listing)
 
 #@st.cache(allow_output_mutation=True) - if true, the test aspect breaks in simulation, and its not that heavy

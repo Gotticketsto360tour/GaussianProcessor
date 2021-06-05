@@ -651,25 +651,33 @@ else:
                     errors_std = errors.std()
                 st.success("Done fitting!")
 
+                if date_time_checker == "Yes":
+                    date = x_select
+                else:
+                    date = "x"
+
                 ## PLOT
                 with st.spinner("Plotting predictions... "):
                     fig, ax = plt.subplots(2, 1, figsize=(12, 10)) 
-                    ax[0].plot(x_train, y_train, 'r:', label='Observations')
-                    ax[0].plot(x_train, y_pred, 'b-', label='Prediction')
-                    ax[0].fill(np.concatenate([x_train, x_train[::-1]]),
+                    ax[0].plot(train[date].values, y_train, 'r:', label='Observations')
+                    ax[0].plot(train[date].values, y_pred, 'b-', label='Prediction')
+                    ax[0].fill(np.concatenate([train[date].values, train[date].values[::-1]]),
                             np.concatenate([y_pred - 1.9600 * sigma,
                                             (y_pred + 1.9600 * sigma)[::-1]]),
                             alpha=.5, fc='b', ec='None', label='95% confidence interval')
-                    ax[0].plot(x_test, y_test, 'r:', label='_nolegend_')
-                    ax[0].plot(x_test, y_pred_test, 'b-', label='_nolegend_')
-                    ax[0].fill(np.concatenate([x_test, x_test[::-1]]),
+                    ax[0].plot(test[date].values, y_test, 'r:', label='_nolegend_')
+                    ax[0].plot(test[date].values, y_pred_test, 'b-', label='_nolegend_')
+                    ax[0].fill(np.concatenate([test[date].values, test[date].values[::-1]]),
                             np.concatenate([y_pred_test - 1.9600 * sigma_test,
                                             (y_pred_test + 1.9600 * sigma_test)[::-1]]),
                             alpha=.5, fc='b', ec='None', label='_nolegend_')
                     #ax[0].xlabel('$x$')
                     #ax[0].ylabel('$f(x)$')
-                    ax[0].axvline(x_train[-1]) #maybe not flexible enough
-                    ax[0].set(xlabel = "$x$", ylabel = "$y$")
+                    ax[0].axvline(train[date].values[-1]) #maybe not flexible enough
+                    if date_time_checker == "Yes":
+                        ax[0].set(xlabel = "Date", ylabel = "$y$")
+                    else:
+                        ax[0].set(xlabel = "$x$", ylabel = "$y$")
                     ax[0].legend(loc='upper center', bbox_to_anchor=(0.5, 1.2),
                         fancybox=True, shadow=True, ncol=2)
                     ### HISTOGRAM:
@@ -702,10 +710,10 @@ else:
 
                     expander = st.beta_expander("Accuracy")
                     with expander:
-                        '''Here, we are using the mean squared error 
+                        '''Here, we are using the root mean squared error 
                         to get an accuracy measurement of our model.
                         Mathematically, this is given by:'''
-                        r''' ### $$\frac{1}{n} \sum ^{n}_{i=1} (y-\hat{y})^2$$'''
+                        r''' ### $$\frac{1}{n} \sum ^{n}_{i=1} \sqrt{(y-\hat{y})^2}$$'''
 
                         f'''
                         ### $$MSE = {helper_functions.get_RMSE(y_test, y_pred_test)}$$
