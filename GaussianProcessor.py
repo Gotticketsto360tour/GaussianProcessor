@@ -785,3 +785,8 @@ y_pred_test, sigma_test = gp.predict(x_test, return_std=True)
 # (16) Make explanations for all kernels finished in the current format.
 # (17) Fix "Known Issues"
 # (18) Explanations for plots?
+# (19) Add readme and check whether it works without having the app on the internet
+# (20) Reevaluate whether naming scheme makes any sense
+# (21) Start finding references and get moving in latex
+# (22) Consider making dot product and dot product squared to have much lower weights, so that the kernel isn't dominated by them
+# (23) Make the learning mode have the same "pop-up" with kernels
