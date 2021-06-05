@@ -141,7 +141,7 @@ if radio_checker == "Learn and simulate":
             interpret_dict = {}
             string_dict = {}
 
-            kernel_select = st.sidebar.multiselect("Select Kernels", ["RationalQuadratic", "ExpSineSquared", "ExpSineSquared_2", "DotProduct", "WhiteKernel", "RBF", "Matern", "DotProduct Squared"], "DotProduct")
+            kernel_select = st.sidebar.multiselect("Select Kernels", ["RationalQuadratic", "ExpSineSquared", "DotProduct", "WhiteKernel", "RBF", "Matern", "DotProduct Squared"], "DotProduct")
 
             if kernel_select:
                 st.sidebar.header("Kernels")
@@ -509,7 +509,7 @@ else:
 
             interpret_dict = {}
 
-            kernel_select = st.sidebar.multiselect("Select Kernels", ["RationalQuadratic", "ExpSineSquared", "ExpSineSquared_2", "DotProduct", "WhiteKernel", "RBF", "Matern", "DotProduct Squared"], "DotProduct")
+            kernel_select = st.sidebar.multiselect("Select Kernels", ["RationalQuadratic", "ExpSineSquared", "DotProduct", "WhiteKernel", "RBF", "Matern", "DotProduct Squared"], "DotProduct")
 
             if kernel_select:
                 st.sidebar.header("Kernels")
