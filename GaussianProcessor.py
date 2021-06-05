@@ -200,7 +200,7 @@ $$k(x_i, x_j) = (\sigma ^2 _0 + x_i \cdot x_j)^2$$
                     exp_sine_1 = st.slider("First Exp Sine Squared L", min_value = 0.1, max_value = 100.0)
                     exp_sine_1_period = st.slider("First Exp Sine Squared Period", min_value = 0.1, max_value = 100.0)
 
-                interpret_dict["ExpSineSquared"] = sine_weight * ExpSineSquared(length_scale = exp_sine_1, periodicity = exp_sine_2_period)
+                interpret_dict["ExpSineSquared"] = sine_weight * ExpSineSquared(length_scale = exp_sine_1, periodicity = exp_sine_1_period)
                 string_dict["ExpSineSquared"] = '''### ExpSineSquared
 The *Exponential Sine Squared* kernels can be used to sample models that capture the periodic/cyclical relations in the data. The reason that there are two is to model two different cycles. The second Exponential Sine Squared Kernel can adjusted in terms of its periodicity.
 
