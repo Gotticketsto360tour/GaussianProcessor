@@ -794,3 +794,4 @@ y_pred_test, sigma_test = gp.predict(x_test, return_std=True)
 # (22) Consider making dot product and dot product squared to have much lower weights, so that the kernel isn't dominated by them
 # (23) Make the learning mode have the same "pop-up" with kernels
 # (24) Visualizing the kernels are what is destroying the app in "own data mode".
+# (25) It is still extreeeemely volatile - even remotely large datasets breaks it. 
