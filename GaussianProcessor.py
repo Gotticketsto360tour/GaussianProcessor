@@ -100,7 +100,7 @@ if radio_checker == "Learn and simulate":
             x = np.append(x, x_test)
             fig, ax = plt.subplots(1, 1, figsize=(12, 5)) 
             ax.plot(x, helper_functions.f(x, lin_trend, sinus, sinus_2, sinus_2_period, poly_trend), 'r:', label=rf'$f(x) = {lin_trend} \cdot x + {poly_trend} \cdot x^2 +{sinus} \cdot \sin(x) + {sinus_2} \cdot \sin({sinus_2_period} \cdot x)$')
-            ax.axvline(x_end, label = "training test split")
+            ax.axvline(x_end, label = "train test split")
             ax.set(xlabel = "$x$", ylabel = "$f(x)$")
             ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.2),
                 fancybox=True, shadow=True, ncol=2)
@@ -132,11 +132,6 @@ if radio_checker == "Learn and simulate":
 
                 ### Train and Test
                 The model currently sees {n} points between 0 and {x_end}. The MSE is calculated for the test set. 
-
-                ### Known Issues
-                Currently, when parameters in the kernels are specified, for which there is no good solution, the kernel will default to the last value,
-                which gave valid responses. If nothing you do changes the plot, please try to reset the kernels and start over. Another alternative fix is to 
-                play around with the data by adding additional points or extending the range of the training data. 
                 '''
 
     with st.sidebar.form("my_sidebar_form"):
@@ -319,7 +314,7 @@ The *White Kernel* is white noise and can be used to model noise (i.e. measureme
                 errors_std = errors.std()
 
             '''
-            ### Kernels
+            ## Kernels
             '''
             expander = st.beta_expander("Read about your kernels")
 
@@ -393,6 +388,21 @@ The *White Kernel* is white noise and can be used to model noise (i.e. measureme
             ax[1].set(title='Distribution of Error', xlabel='error', ylabel=None);
             st.pyplot(fig)
 
+            '''
+            ### My model looks crazy - what should I do?
+            '''
+            expander = st.beta_expander("Tips for fitting your model")
+
+            with expander:
+                '''
+                ### Tips for fitting your model
+                Currently, when parameters in the kernels are specified, for which there is no good solution, the kernel will default to the last value,
+                which gave valid responses. If nothing you do changes the plot, please try to reset the kernels and start over. Another alternative fix is to 
+                play around with the data by adding additional points or extending the range of the training data. 
+
+                Another approach for fitting better is to include kernels such as RBF and WhiteKernel, even if the data is not noisy. 
+                This gives the model a bit more freedom to fit the data, which often leads to better solutions. 
+                '''
 
             col1, col2, col3 = st.beta_columns([1,6,1])
 
@@ -769,10 +779,8 @@ y_pred_test, sigma_test = gp.predict(x_test, return_std=True)
 # (6) Find dataset, where this is just brilliant
 # (7) Add kernels to Upload your own data.
 # (8) Consider having the second ExpSine as a multiplicative component
-# (10) Check whether final kernel is really the right one - when it fits, does it look different? Does not!
 # (12) Insert a "what to look out for in terms of mistakes"
 # (13) Consider scaling everything - does that make things better? 
-# (14) Insert period for exp1 as well
 # (15) should all weights just be between 0 and 1?
 # (16) Make explanations for all kernels finished in the current format.
 # (17) Fix "Known Issues"
