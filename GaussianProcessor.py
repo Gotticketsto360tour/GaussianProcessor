@@ -780,14 +780,11 @@ y_pred_test, sigma_test = gp.predict(x_test, return_std=True)
 ## TODO:
 # (3) Gentænk strukturen for "Guided Tour". Tror bare det skal komme som sin egen ting, men med containers indeni.
 # (5) Read about human in the loop
-# (6) Find dataset, where this is just brilliant
-# (7) Add kernels to Upload your own data.
+# (6) Find dataset, where this is just brilliant - surprisingly hard!
 # (8) Consider having the second ExpSine as a multiplicative component
-# (12) Insert a "what to look out for in terms of mistakes"
 # (13) Consider scaling everything - does that make things better? 
 # (15) should all weights just be between 0 and 1?
 # (16) Make explanations for all kernels finished in the current format.
-# (17) Fix "Known Issues"
 # (18) Explanations for plots?
 # (19) Add readme and check whether it works without having the app on the internet
 # (20) Reevaluate whether naming scheme makes any sense
