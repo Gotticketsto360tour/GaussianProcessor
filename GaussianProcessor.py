@@ -197,8 +197,11 @@ $$k(x_i, x_j) = (\sigma ^2 _0 + x_i \cdot x_j)^2$$
                 expander = st.sidebar.beta_expander("Exponential Sine Squared")
                 with expander:
                     sine_weight = st.slider("Exp Sine Squared Weight", min_value = 0.1, max_value = 100.0, value = 1.0)
-                    exp_sine_1 = st.slider("First Exp Sine Squared L", min_value = 0.1, max_value = 100.0)
-                    exp_sine_1_period = st.slider("First Exp Sine Squared Period", min_value = 0.1, max_value = 100.0)
+                    exp_sine_1 = st.slider("Exp Sine Squared L", min_value = 0.1, max_value = 100.0)
+                    exp_sine_1_period = st.slider("Exp Sine Squared Period", min_value = 0.1, max_value = 100.0)
+                    exp_sine_mult = "Additive" #set default
+                    if "DotProduct" in kernel_select:
+                            exp_sine_mult = st.radio("Mode", ["Additive", "Multiplicative"])
 
                 interpret_dict["ExpSineSquared"] = sine_weight * ExpSineSquared(length_scale = exp_sine_1, periodicity = exp_sine_1_period)
                 string_dict["ExpSineSquared"] = '''### ExpSineSquared
@@ -207,15 +210,6 @@ The *Exponential Sine Squared* kernels can be used to sample models that capture
 #### Mathematical equation
 $$k(x_i, x_j) = \exp \\left(- \\frac{2 \sin(\pi d (x_i, x_j)/p)}{l^2}\\right)$$
 '''
-
-            if "ExpSineSquared_2" in kernel_select:
-                expander = st.sidebar.beta_expander("Exponential Sine Squared 2")
-                with expander:
-                    sine_weight_2 = st.slider("Exp Sine Squared Weight 2", min_value = 0.1, max_value = 100.0, value = 1.0)
-                    exp_sine_2 = st.slider("Second Exp Sine Squared L", min_value = 0.1, max_value = 100.0)
-                    exp_sine_2_period = st.slider("Second Exp Sine Squared Period", min_value = 0.1, max_value = 100.0)
-                interpret_dict["ExpSineSquared_2"] = sine_weight_2 * ExpSineSquared(length_scale = exp_sine_2, periodicity= exp_sine_2_period)
-
             if "RBF" in kernel_select:
                 expander = st.sidebar.beta_expander("RBF")
                 with expander:
@@ -263,11 +257,14 @@ The *White Kernel* is white noise and can be used to model noise (i.e. measureme
             # Instantiate a Gaussian Process model
 
             for i, ele in enumerate(kernel_select):
-                element = interpret_dict.get(ele)
-                if i == 0:
-                    kernel = element
-                else:
-                    kernel += element
+                    element = interpret_dict.get(ele)
+                    if i == 0:
+                        kernel = element
+                    else:
+                        if ele == "ExpSineSquared" and exp_sine_mult == "Multiplicative":
+                            kernel = kernel * element
+                        else:
+                            kernel += element
 
 
             # ----------------------------------------------------------------------
@@ -537,8 +534,8 @@ else:
                 expander = st.sidebar.beta_expander("Exponential Sine Squared")
                 with expander:
                     sine_weight = st.slider("Exp Sine Squared Weight", min_value = 0.1, max_value = 100.0, value = 1.0)
-                    exp_sine_1 = st.slider("First Exp Sine Squared L", min_value = 0.1, max_value = 100.0)
-                    exp_sine_1_period = st.slider("First Exp Sine Squared Period", min_value = 0.1, max_value = 100.0)
+                    exp_sine_1 = st.slider("Exp Sine Squared L", min_value = 0.1, max_value = 100.0)
+                    exp_sine_1_period = st.slider("Exp Sine Squared Period", min_value = 0.1, max_value = 100.0)
                     exp_sine_mult = "Additive" #set default
                 ### Trying multiplicative:
                     if "DotProduct" in kernel_select:
@@ -554,14 +551,6 @@ else:
                     alpha = st.slider("Rational Quadratic Alpha", min_value = 0.1, max_value = 100.0)
                 
                 interpret_dict["RationalQuadratic"] = rational_weight * RationalQuadratic(length_scale = rational, alpha = alpha)
-
-            if "ExpSineSquared_2" in kernel_select:
-                expander = st.sidebar.beta_expander("Exponential Sine Squared 2")
-                with expander:
-                    sine_weight_2 = st.slider("Exp Sine Squared Weight 2", min_value = 0.1, max_value = 100.0, value = 1.0)
-                    exp_sine_2 = st.slider("Second Exp Sine Squared L", min_value = 0.1, max_value = 100.0)
-                    exp_sine_2_period = st.slider("Second Exp Sine Squared Period", min_value = 0.1, max_value = 100.0)
-                interpret_dict["ExpSineSquared_2"] = sine_weight_2 * ExpSineSquared(length_scale = exp_sine_2, periodicity= exp_sine_2_period)
 
             if "RBF" in kernel_select:
                 expander = st.sidebar.beta_expander("RBF")
