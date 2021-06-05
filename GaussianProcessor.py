@@ -603,20 +603,23 @@ else:
                 x_train = np.atleast_2d(x_train).T
                 x_test = np.atleast_2d(x_test).T
 
-                expander = st.beta_expander("Visualize your kernels")
+                ## Warning message for kernels.
+                st.warning('Explanations and visualization are not available when uploading own data due to memory overload for large datasets. Navigate to the *Learn and simulate* for complete explanations.')
 
-                with st.spinner("Plotting kernels..."):
-                    with expander:
-                        '''
-                    #### Covariance matrices
-                    Below are the covariance matrices for your selected kernels. The covariance matrices have $x$ on both axis. Each point on this matrice can be defined as $k(x_i, x_j)$. 
+                # expander = st.beta_expander("Visualize your kernels")
 
-                    A good intuition to have here, is that if $k(x_i, x_j)$ has a bright color, the kernel estimates that these points are similar, and should therefore learn from each other's value.
-                    '''
-                        ## Warning message for kernels.
-                        st.warning('Explanations of the different kernels are not shown here. Navigate to the *Learn and simulate* for complete explanations.')
+                # with st.spinner("Plotting kernels..."):
+                #     with expander:
+                #         '''
+                #     #### Covariance matrices
+                #     Below are the covariance matrices for your selected kernels. The covariance matrices have $x$ on both axis. Each point on this matrice can be defined as $k(x_i, x_j)$. 
 
-                        st.pyplot(helper_functions.plot_kernels(kernel_select, interpret_dict, kernel, x_train))
+                #     A good intuition to have here, is that if $k(x_i, x_j)$ has a bright color, the kernel estimates that these points are similar, and should therefore learn from each other's value.
+                #     '''
+                #         ## Warning message for kernels.
+                #         st.warning('Explanations of the different kernels are not shown here. Navigate to the *Learn and simulate* for complete explanations.')
+
+                #         st.pyplot(helper_functions.plot_kernels(kernel_select, interpret_dict, kernel, x_train))
 
                 #initialize the processor
                 gp = GaussianProcessRegressor(kernel=kernel,
@@ -790,3 +793,4 @@ y_pred_test, sigma_test = gp.predict(x_test, return_std=True)
 # (21) Start finding references and get moving in latex
 # (22) Consider making dot product and dot product squared to have much lower weights, so that the kernel isn't dominated by them
 # (23) Make the learning mode have the same "pop-up" with kernels
+# (24) Visualizing the kernels are what is destroying the app in "own data mode".
