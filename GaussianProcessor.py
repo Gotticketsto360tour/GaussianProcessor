@@ -202,7 +202,7 @@ $$k(x_i, x_j) = (\sigma ^2 _0 + x_i \cdot x_j)^2$$
 
                 interpret_dict["ExpSineSquared"] = sine_weight * ExpSineSquared(length_scale = exp_sine_1, periodicity = exp_sine_1_period)
                 string_dict["ExpSineSquared"] = '''### ExpSineSquared
-The *Exponential Sine Squared* kernels can be used to sample models that capture the periodic/cyclical relations in the data. The reason that there are two is to model two different cycles. The second Exponential Sine Squared Kernel can adjusted in terms of its periodicity.
+The *Exponential Sine Squared* kernels can be used to sample models that capture the periodic/cyclical relations in the data. This is also the only kernel which has a "mode". The reason for this is to model if the seasonality changes as a function of time. This is only available if the DotProduct kernel is also chosen. 
 
 #### Mathematical equation
 $$k(x_i, x_j) = \exp \\left(- \\frac{2 \sin(\pi d (x_i, x_j)/p)}{l^2}\\right)$$
