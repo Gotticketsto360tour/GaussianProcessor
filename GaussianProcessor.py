@@ -161,7 +161,7 @@ if radio_checker == "Learn and simulate":
                 
                 interpret_dict["RationalQuadratic"] = rational_weight * RationalQuadratic(length_scale = rational, alpha = alpha)
                 string_dict["RationalQuadratic"] = '''### RationalQuadratic
-The *Rational Quadratic* is still a bit of a mystery. But it seems it might be useful if there was a non-linear trend that we needed to capture.
+The *Rational Quadratic* can be seen as an infinite sum of RBF kernels. If you are trying to capture a non-linear trend, this is a good option.
 
 #### Mathematical equation
 $$k(x_i, x_j) = \\left(1 + \\frac{d(x_i, x_j)^2}{2 \\alpha l^2} \\right)$$
@@ -228,7 +228,11 @@ $$k(x_i, x_j) = \exp \\left(- \\frac{2 \sin(\pi d (x_i, x_j)/p)}{l^2}\\right)$$
 
                 interpret_dict["RBF"] = rbf_weight * RBF(length_scale=rbf)
                 string_dict["RBF"] = '''### RBF
-The *RGF* kernel treats points that are close to each other in $x$ as being close in $y$.'''
+The *RGF* kernel treats points that are close to each other in $x$ as being close in $y$. Sometimes this is also called the squared exponential kernel.
+
+#### Mathematical equation
+$$k(x_i, x_j) = \exp \\left(- \\frac{d(x_i, x_j)^2}{2l^2})\\right)$$
+'''
 
             if "Matern" in kernel_select:
                 expander = st.sidebar.beta_expander("Matern")
@@ -239,6 +243,8 @@ The *RGF* kernel treats points that are close to each other in $x$ as being clos
                 
                 interpret_dict["Matern"] = matern_weight * Matern(length_scale=matern_length, nu = matern_nu)
                 string_dict["Matern"] = '''### Matern
+
+#### Mathematical equation
 $$C_{\\nu }(d)=\\sigma ^{2}{\\frac {2^{1-\\nu }}{\Gamma (\\nu )}}{\Bigg (}{\sqrt {2\\nu }}{\\frac {d}{\\rho }}{\Bigg )}^{\\nu }K_{\\nu }{\Bigg (}{\sqrt {2\\nu }}{\\frac {d}{\\rho }}{\Bigg )}$$'''
             
             if "WhiteKernel" in kernel_select:
@@ -521,7 +527,8 @@ else:
                 with expander:
                     sine_weight = st.slider("Exp Sine Squared Weight", min_value = 0.1, max_value = 100.0, value = 1.0)
                     exp_sine_1 = st.slider("First Exp Sine Squared L", min_value = 0.1, max_value = 100.0)
-                interpret_dict["ExpSineSquared"] = sine_weight * ExpSineSquared(length_scale = exp_sine_1)
+                    exp_sine_1_period = st.slider("First Exp Sine Squared Period", min_value = 0.1, max_value = 100.0)
+                interpret_dict["ExpSineSquared"] = sine_weight * ExpSineSquared(length_scale = exp_sine_1, periodicity = exp_sine_1_period)
 
             if "ExpSineSquared_2" in kernel_select:
                 expander = st.sidebar.beta_expander("Exponential Sine Squared 2")
@@ -596,6 +603,8 @@ else:
 
                     A good intuition to have here, is that if $k(x_i, x_j)$ has a bright color, the kernel estimates that these points are similar, and should therefore learn from each other's value.
                     '''
+                        ## Warning message for kernels.
+                        st.warning('Explanations of the different kernels are not shown here. Navigate to the *Learn and simulate* for complete explanations.')
 
                         st.pyplot(helper_functions.plot_kernels(kernel_select, interpret_dict, kernel, x_train))
 
@@ -755,19 +764,16 @@ y_pred_test, sigma_test = gp.predict(x_test, return_std=True)
 
 
 ## TODO:
-# (1) Gem værdierne i en dataframe ( https://codingfordata.com/8-simple-and-useful-streamlit-tricks-you-should-know/) - DONE!
-# (2) Add a reminder that it is easier to navigate and understand the different kernels from the simulated data.
 # (3) Gentænk strukturen for "Guided Tour". Tror bare det skal komme som sin egen ting, men med containers indeni.
-# (4) Enforce exploration in first section with kernels explained only if they are chosen. - DONE!
 # (5) Read about human in the loop
 # (6) Find dataset, where this is just brilliant
 # (7) Add kernels to Upload your own data.
 # (8) Consider having the second ExpSine as a multiplicative component
-# (9) Ensure reproducibility with same settings - DONE!
-# (10) Check whether final kernel is really the right one - when it fits, does it look different?
-# (11) Set spinner for plot kernels - DONE!
+# (10) Check whether final kernel is really the right one - when it fits, does it look different? Does not!
 # (12) Insert a "what to look out for in terms of mistakes"
 # (13) Consider scaling everything - does that make things better? 
 # (14) Insert period for exp1 as well
 # (15) should all weights just be between 0 and 1?
 # (16) Make explanations for all kernels finished in the current format.
+# (17) Fix "Known Issues"
+# (18) Explanations for plots?
