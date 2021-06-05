@@ -484,13 +484,23 @@ else:
                 test = df[df["x"] > index] #consider resetting index
                 return train, test
 
-            percent_split = st.number_input("What percent of the data should be used for training?", 50.0, 90.0)
+            percent_split = st.slider("What percent of the data should be used for training?", 1.0, 99.0)
 
             train, test = time_split(df, percent_split)
 
             submitted = st.form_submit_button("Submit Values") 
 
             if submitted:
+                if date_time_checker == "Yes":
+                    date = x_select
+                else:
+                    date = "x"
+                fig, ax = plt.subplots(1, 1, figsize=(12, 5)) 
+                ax.plot(df[date].values, df[y_select].values, 'r:', label= "Data")
+                ax.axvline(train[date].values[-1], label = "train test split")
+                ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.2),
+                    fancybox=True, shadow=True, ncol=2)
+                st.pyplot(fig)
                 st.success("Parameters chosen! Select kernels and start fitting your model on the sidebar to the left.")
 
 
@@ -506,16 +516,6 @@ else:
 
             if kernel_select:
                 st.sidebar.header("Kernels")
-
-            if "RationalQuadratic" in kernel_select:
-
-                expander = st.sidebar.beta_expander("Rational Quadratic")
-                with expander:
-                    rational_weight = st.slider("Rational Quadratic Weight", min_value = 0.1, max_value = 100.0, value = 1.0)
-                    rational = st.slider("Rational Quadratic Kernel L", min_value = 0.1, max_value = 100.0)
-                    alpha = st.slider("Rational Quadratic Alpha", min_value = 0.1, max_value = 100.0)
-                
-                interpret_dict["RationalQuadratic"] = rational_weight * RationalQuadratic(length_scale = rational, alpha = alpha)
 
             if "DotProduct" in kernel_select:
 
@@ -539,7 +539,21 @@ else:
                     sine_weight = st.slider("Exp Sine Squared Weight", min_value = 0.1, max_value = 100.0, value = 1.0)
                     exp_sine_1 = st.slider("First Exp Sine Squared L", min_value = 0.1, max_value = 100.0)
                     exp_sine_1_period = st.slider("First Exp Sine Squared Period", min_value = 0.1, max_value = 100.0)
+                    exp_sine_mult = "Additive" #set default
+                ### Trying multiplicative:
+                    if "DotProduct" in kernel_select:
+                        exp_sine_mult = st.radio("Mode", ["Additive", "Multiplicative"])
                 interpret_dict["ExpSineSquared"] = sine_weight * ExpSineSquared(length_scale = exp_sine_1, periodicity = exp_sine_1_period)
+
+            if "RationalQuadratic" in kernel_select:
+
+                expander = st.sidebar.beta_expander("Rational Quadratic")
+                with expander:
+                    rational_weight = st.slider("Rational Quadratic Weight", min_value = 0.1, max_value = 100.0, value = 1.0)
+                    rational = st.slider("Rational Quadratic Kernel L", min_value = 0.1, max_value = 100.0)
+                    alpha = st.slider("Rational Quadratic Alpha", min_value = 0.1, max_value = 100.0)
+                
+                interpret_dict["RationalQuadratic"] = rational_weight * RationalQuadratic(length_scale = rational, alpha = alpha)
 
             if "ExpSineSquared_2" in kernel_select:
                 expander = st.sidebar.beta_expander("Exponential Sine Squared 2")
@@ -591,7 +605,10 @@ else:
                     if i == 0:
                         kernel = element
                     else:
-                        kernel += element
+                        if ele == "ExpSineSquared" and exp_sine_mult == "Multiplicative":
+                            kernel = kernel * element
+                        else:
+                            kernel += element
 
                 ## Unpack data 
                 ### Most likely here the problem with mattern and RBF is. Needs to be numeric things in order to divide.
@@ -780,8 +797,7 @@ y_pred_test, sigma_test = gp.predict(x_test, return_std=True)
 ## TODO:
 # (3) Gentænk strukturen for "Guided Tour". Tror bare det skal komme som sin egen ting, men med containers indeni.
 # (5) Read about human in the loop
-# (6) Find dataset, where this is just brilliant - surprisingly hard!
-# (8) Consider having the second ExpSine as a multiplicative component
+# (8) Consider having the second ExpSine as a multiplicative component - how to make this elegant?
 # (13) Consider scaling everything - does that make things better? 
 # (15) should all weights just be between 0 and 1?
 # (16) Make explanations for all kernels finished in the current format.
@@ -791,5 +807,4 @@ y_pred_test, sigma_test = gp.predict(x_test, return_std=True)
 # (21) Start finding references and get moving in latex
 # (22) Consider making dot product and dot product squared to have much lower weights, so that the kernel isn't dominated by them
 # (23) Make the learning mode have the same "pop-up" with kernels
-# (24) Visualizing the kernels are what is destroying the app in "own data mode".
-# (25) It is still extreeeemely volatile - even remotely large datasets breaks it. 
+# (25) It is still extreeeemely volatile - even remotely large datasets breaks it. Write section about volatility as main part of future work.
