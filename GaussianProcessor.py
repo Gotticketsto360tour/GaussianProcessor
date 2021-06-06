@@ -38,13 +38,13 @@ st.image("bayes_bois.png", width = 100)
 '''
 
 ### GLOBAL PARAMS
-radio_checker = st.selectbox("What do you want to do?", ["Learn and simulate", "Upload my own data"])
+radio_checker = st.selectbox("What do you want to do?", ["Learning and simulating", "Upload my own data"])
 
 ### HERE!
 
 ## SIMULATION OPTION:
 
-if radio_checker == "Learn and simulate":
+if radio_checker == "Learning and simulating":
 
     '''
     # Learning and simulating
@@ -464,7 +464,7 @@ if radio_checker == "Learn and simulate":
 else:
 
     '''
-    # Upload your own data
+    # Upload my own data
     '''
 
     data_file = st.file_uploader("Upload CSV",type=['csv'])
