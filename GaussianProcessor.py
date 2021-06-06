@@ -432,7 +432,7 @@ The *White Kernel* is white noise and can be used to model noise (i.e. measureme
                 stringing = stringing.replace("_", " ")
 
                 #stringing = re.sub(r"**", "^", stringing)
-                '''### Current settings:'''
+                '''### Current Kernel Settings:'''
 
 
                 f'''$${stringing}$$'''
@@ -721,7 +721,7 @@ else:
                     stringing = stringing.replace("_", " ")
 
                     #stringing = re.sub(r"**", "^", stringing)
-                    '''### Current settings:'''
+                    '''### Current Kernel Settings:'''
 
 
                     f'''$${stringing}$$'''
