@@ -65,7 +65,7 @@ if radio_checker == "Learn and simulate":
             #### Simulating data
             To begin simulating, simply adjust the sliders below and press the *Simulate Data*-button. 
             
-            Below the values, you can investigate how the data is simulated.
+            After you have simulated the data, you can investigate how the data was simulated.
             
             #### Fitting your model
 
@@ -118,28 +118,28 @@ if radio_checker == "Learn and simulate":
                 after_end = st.number_input("Select end after X", 10)
                 test_n = st.number_input("Select number of points in test-set", 20)
 
-            expander = st.beta_expander("How is the data simulated?")
-
-            with expander:
-                f'''
-                ### Data Generation
-                This app was made to showcase $sklearn$'s GaussianProcesses - an extremely useful method for time-series forecasting.
-                Above you will find sliders, which specify the data generating function. Currently, the data-generating function is
-
-                $$f(x) = {lin_trend} \cdot x + {poly_trend} \cdot x^2 + {sinus} \cdot \sin(x) + {sinus_2} \cdot \sin({sinus_2_period} \cdot x)$$
-
-                Optionally, the data generating function is not perfect. This can be used to simulate measurement errors. This is specified in
-                the "Noise Amount"-slider. The data is sampled from a Gaussian distribution around the point ($x$), with a standard deviation equal to 
-                the Noise Amount:
-
-                $$x \sim N(f(x), {noise_amount})$$
-
-                ### Train and Test
-                The model currently sees {n} points between 0 and {x_end}. The RMSE is calculated for the test set. 
-                '''
             submitted = st.form_submit_button("Simulate Data") 
 
             if submitted:
+                expander = st.beta_expander("How is the data simulated?")
+
+                with expander:
+                    f'''
+                    ### Data Generation
+                    This app was made to showcase $sklearn$'s GaussianProcesses - an extremely useful method for time-series forecasting.
+                    Above you will find sliders, which specify the data generating function. Currently, the data-generating function is
+
+                    $$f(x) = {lin_trend} \cdot x + {poly_trend} \cdot x^2 + {sinus} \cdot \sin(x) + {sinus_2} \cdot \sin({sinus_2_period} \cdot x)$$
+
+                    Optionally, the data generating function is not perfect. This can be used to simulate measurement errors. This is specified in
+                    the "Noise Amount"-slider. The data is sampled from a Gaussian distribution around the point ($x$), with a standard deviation equal to 
+                    the Noise Amount:
+
+                    $$x \sim N(f(x), {noise_amount})$$
+
+                    ### Train and Test
+                    The model currently sees {n} points between 0 and {x_end}. The RMSE is calculated for the test set. 
+                    '''
                 x = np.atleast_2d(np.linspace(0, x_end, 1000)).T
                 x_test = np.atleast_2d(np.linspace(x_end, x_end+after_end, 500)).T
                 x = np.append(x, x_test)
