@@ -50,17 +50,9 @@ if radio_checker == "Learn and simulate":
     # Learning and simulating
     '''
     '''
-    Welcome to the **Gaussian Processor**!'''
-    col1, col2, col3 = st.beta_columns([5,3,5])
-
-    with col1:
-        st.write("")
+    Welcome to the **Gaussian Processor**! Click the button below to start simulating data.'''
     
-    with col2:
-        started = st.button("I am ready to start!")
-
-    with col3:
-        st.write("")
+    started = st.button("I am ready to start!")
 
     if started:
 
