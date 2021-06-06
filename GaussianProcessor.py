@@ -51,7 +51,7 @@ if radio_checker == "Learn and simulate":
     '''
     '''
     Welcome to the **Gaussian Processor**!'''
-    col1, col2, col3 = st.beta_columns([2,4,2])
+    col1, col2, col3 = st.beta_columns([1,6,1])
 
     with col1:
         st.write("")
@@ -64,7 +64,7 @@ if radio_checker == "Learn and simulate":
 
     if started:
 
-        with st.beta_expander("**Click here to learn about the Gaussian Processor**"):
+        with st.beta_expander("Click here to learn about the Gaussian Processor"):
             '''
             To get started, we need some data. In order for you to have full control over the process, you simulate the data that you will be modelling!
             
