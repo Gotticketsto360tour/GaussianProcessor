@@ -242,7 +242,7 @@ The Matern Kernel also has the parameter $\\nu$ (nu), which controls the smoothn
 #### Mathematical equation
 $$C_{\\nu }(d)=\\sigma ^{2}{\\frac {2^{1-\\nu }}{\Gamma (\\nu )}}{\Bigg (}{\sqrt {2\\nu }}{\\frac {d}{\\rho }}{\Bigg )}^{\\nu }K_{\\nu }{\Bigg (}{\sqrt {2\\nu }}{\\frac {d}{\\rho }}{\Bigg )}$$
 
-where $d(.,.)$ is the Euclidean distance, $K_{\\nu }(.)$ is a modified Bessel function, and $\Gamma (.)$.
+where $d(.,.)$ is the Euclidean distance, $K_{\\nu }(.)$ is a modified Bessel function, and $\Gamma (.)$ is the Gamma function.
 '''
             
             if "WhiteKernel" in kernel_select:
