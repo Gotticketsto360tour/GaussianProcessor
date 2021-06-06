@@ -40,6 +40,8 @@ st.image("bayes_bois.png", width = 100)
 ### GLOBAL PARAMS
 radio_checker = st.selectbox("What do you want to do?", ["Learn and simulate", "Upload my own data"])
 
+### HERE!
+
 ## SIMULATION OPTION:
 
 if radio_checker == "Learn and simulate":
@@ -799,9 +801,10 @@ y_pred_test, sigma_test = gp.predict(x_test, return_std=True)
 # (15) should all weights just be between 0 and 1?
 # (16) Make explanations for all kernels finished in the current format.
 # (18) Explanations for plots?
-# (19) Add readme and check whether it works without having the app on the internet
 # (20) Reevaluate whether naming scheme makes any sense
 # (21) Start finding references and get moving in latex
 # (22) Consider making dot product and dot product squared to have much lower weights, so that the kernel isn't dominated by them
 # (23) Make the learning mode have the same "pop-up" with kernels
 # (25) It is still extreeeemely volatile - even remotely large datasets breaks it. Write section about volatility as main part of future work.
+# (26) Maybe include default "None" to choose what you want to do, so that it is empty to begin with
+# (27) Include more descriptions of stuff, people don't get it :D 
