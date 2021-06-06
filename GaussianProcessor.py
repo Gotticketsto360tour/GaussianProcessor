@@ -74,7 +74,7 @@ if radio_checker == "Learn and simulate":
             Here you will find ways of (a) selecting your *kernels*, (b) adjusting each *kernel* and (c) fitting your *model*.
             
             #### Goal
-            Try finding the best model for your data by adjusting your kernels! 
+            Try finding the best model for your data by adjusting your kernels on the left sidebar! 
             '''
 
         '''
