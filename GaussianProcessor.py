@@ -62,7 +62,7 @@ if radio_checker == "Learn and simulate":
         
         When you are ready and you have simulated your data, look to *left side-bar* of the page.
         
-        Here you will find ways of (a) selecting your *kernels*, (b) adjusting each kernel and (c) fitting your model.
+        Here you will find ways of (a) selecting your *kernels*, (b) adjusting each *kernel* and (c) fitting your *model*.
         
         Try finding the best model for your data by adjusting your kernels! 
         '''
