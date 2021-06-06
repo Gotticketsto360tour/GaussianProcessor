@@ -58,16 +58,22 @@ if radio_checker == "Learn and simulate":
 
         with st.beta_expander("Click here to learn about the Gaussian Processor"):
             '''
+            ### Getting started
             To get started, we need some data. In order for you to have full control over the process, you simulate the data that you will be modelling!
             
+
+            #### Simulating data
             To begin simulating, simply adjust the sliders below and press the *Simulate Data*-button. 
             
             Below the values, you can investigate how the data is simulated.
             
+            #### Fitting your model
+
             When you are ready and you have simulated your data, look to *left side-bar* of the page.
             
             Here you will find ways of (a) selecting your *kernels*, (b) adjusting each *kernel* and (c) fitting your *model*.
             
+            #### Goal
             Try finding the best model for your data by adjusting your kernels! 
             '''
 
