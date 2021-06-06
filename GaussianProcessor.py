@@ -235,9 +235,15 @@ $$k(x_i, x_j) = \exp \\left(- \\frac{d(x_i, x_j)^2}{2l^2})\\right)$$
                 
                 interpret_dict["Matern"] = matern_weight * Matern(length_scale=matern_length, nu = matern_nu)
                 string_dict["Matern"] = '''### Matern
+The Matern Kernel is a generalization of the RBF kernel. Similarly, it can be used when you want to model that points which are close in $x$ also are close in $y$ (contiounous functions).
+The Matern Kernel also has the parameter $\\nu$ (nu), which controls the smoothness of the resulting function. As this number grows, it becomes more and more like the RBF kernel.
+
 
 #### Mathematical equation
-$$C_{\\nu }(d)=\\sigma ^{2}{\\frac {2^{1-\\nu }}{\Gamma (\\nu )}}{\Bigg (}{\sqrt {2\\nu }}{\\frac {d}{\\rho }}{\Bigg )}^{\\nu }K_{\\nu }{\Bigg (}{\sqrt {2\\nu }}{\\frac {d}{\\rho }}{\Bigg )}$$'''
+$$C_{\\nu }(d)=\\sigma ^{2}{\\frac {2^{1-\\nu }}{\Gamma (\\nu )}}{\Bigg (}{\sqrt {2\\nu }}{\\frac {d}{\\rho }}{\Bigg )}^{\\nu }K_{\\nu }{\Bigg (}{\sqrt {2\\nu }}{\\frac {d}{\\rho }}{\Bigg )}$$
+
+where $d(.,.)$ is the Euclidean distance, $K_{\\nu }(.)$ is a modified Bessel function, and $\Gamma (.)$.
+'''
             
             if "WhiteKernel" in kernel_select:
                 expander = st.sidebar.beta_expander("WhiteKernel")
