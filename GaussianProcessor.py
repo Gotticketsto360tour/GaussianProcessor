@@ -396,7 +396,7 @@ The *White Kernel* is white noise and can be used to model noise (i.e. measureme
             with expander:
                 '''
                 ### Tips for fitting your model
-                Currently, when parameters in the kernels are specified, for which there is no good solution, the kernel will default to the last value,
+                When parameters in the kernels are specified, for which there is no good solution, the kernel will default to the last value,
                 which gave valid responses. If nothing you do changes the plot, please try to reset the kernels and start over. Another alternative fix is to 
                 play around with the data by adding additional points or extending the range of the training data. 
 
