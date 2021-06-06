@@ -19,4 +19,5 @@ streamlit run Gaussian_Processor.py
 
 which will open the app. 
 
-If you do not have a good data-set available, the dataset *AirPassengers.csv* is included here, which is ideal for modelling. 
+### Data
+Due to the limited memory offered by Streamlit, **the app will break if users exceed the limit of 800 Mb**. To test the functionality of the app, I recommend using the dataset *AirPassengers.csv*, which is included in the repository.
