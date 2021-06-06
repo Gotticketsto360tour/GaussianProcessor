@@ -50,7 +50,7 @@ if radio_checker == "Learn and simulate":
     # Learning and simulating
     '''
     '''
-    Welcome to the **Gaussian Processor**! Click below to read about how to get started.'''
+    Welcome to the **Gaussian Processor**!'''
 
     with st.beta_expander("Click here to get started!"):
         '''
