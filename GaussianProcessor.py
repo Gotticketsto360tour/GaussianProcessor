@@ -51,7 +51,7 @@ if radio_checker == "Learn and simulate":
     '''
     '''
     Welcome to the **Gaussian Processor**!'''
-    col1, col2, col3 = st.beta_columns([5,1,5])
+    col1, col2, col3 = st.beta_columns([5,2,5])
 
     with col1:
         st.write("")
