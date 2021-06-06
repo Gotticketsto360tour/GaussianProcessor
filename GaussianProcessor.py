@@ -133,7 +133,7 @@ if radio_checker == "Learn and simulate":
                 $$x \sim N(f(x), {noise_amount})$$
 
                 ### Train and Test
-                The model currently sees {n} points between 0 and {x_end}. The MSE is calculated for the test set. 
+                The model currently sees {n} points between 0 and {x_end}. The RMSE is calculated for the test set. 
                 '''
 
     with st.sidebar.form("my_sidebar_form"):
@@ -429,7 +429,7 @@ The *White Kernel* is white noise and can be used to model noise (i.e. measureme
                     r''' ### $$\frac{1}{n} \sum ^{n}_{i=1} (y-\hat{y})^2$$'''
 
                     f'''
-                    ### $$MSE = {helper_functions.get_RMSE(y_test, y_predding)}$$
+                    ### $$RMSE = {helper_functions.get_RMSE(y_test, y_predding)}$$
                     '''
 
             with col3:
@@ -718,7 +718,7 @@ else:
                         r''' ### $$\frac{1}{n} \sum ^{n}_{i=1} \sqrt{(y-\hat{y})^2}$$'''
 
                         f'''
-                        ### $$MSE = {helper_functions.get_RMSE(y_test, y_pred_test)}$$
+                        ### $$RMSE = {helper_functions.get_RMSE(y_test, y_pred_test)}$$
                         '''
 
                 with col3:
