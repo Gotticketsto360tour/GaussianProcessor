@@ -50,15 +50,22 @@ if radio_checker == "Learn and simulate":
     # Learning and simulating
     '''
     '''
-    Welcome to the **Gaussian Processor**! 
-    On this page, you will learn the basic intuitions for building statistical models using Gaussian Processes!
-    To do this, we need some data. In order for you to have full control over the process, you simulate the data that you will be modelling!
-    To begin simulating, simply adjust the sliders below and press the *Simulate Data*-button. 
-    Below the values, you can investigate how the data is simulated.
-    When you are ready and you have simulated your data, look to *left side-bar* of the page.
-    Here you will find ways of (a) selecting your *kernels*, (b) adjusting each kernel and (c) fitting your model.
-    Try finding the best model for your data by adjusting your kernels! 
-    '''
+    Welcome to the **Gaussian Processor**! Click below to read about how to get started.'''
+
+    with st.beta_expander("Click here to get started!"):
+        '''
+        To get started, we need some data. In order for you to have full control over the process, you simulate the data that you will be modelling!
+        
+        To begin simulating, simply adjust the sliders below and press the *Simulate Data*-button. 
+        
+        Below the values, you can investigate how the data is simulated.
+        
+        When you are ready and you have simulated your data, look to *left side-bar* of the page.
+        
+        Here you will find ways of (a) selecting your *kernels*, (b) adjusting each kernel and (c) fitting your model.
+        
+        Try finding the best model for your data by adjusting your kernels! 
+        '''
         
     '''
     ## Simulating Data 
