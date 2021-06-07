@@ -442,7 +442,7 @@ The *White Kernel* is white noise and can be used to model noise (i.e. measureme
                 which gave valid responses. If nothing you do changes the plot, please try to reset the kernels and start over. Another alternative fix is to 
                 play around with the data by adding additional points or extending the range of the training data. 
 
-                Another approach for fitting better is to include kernels such as RBF and WhiteKernel, even if the data is not noisy. 
+                Another approach for fitting better models is to include kernels such as RBF and WhiteKernel, even if the data is not noisy. 
                 This gives the model a bit more freedom to fit the data, which often leads to better solutions. 
                 '''
 
