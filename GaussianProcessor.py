@@ -429,6 +429,17 @@ The *White Kernel* is white noise and can be used to model noise (i.e. measureme
             ax[1].set(title='Distribution of Error', xlabel='error', ylabel=None);
             st.pyplot(fig)
 
+            expander = st.beta_expander("Explanation for the plot")
+            with expander:
+                '''
+                ## First plot
+                The first plot shows the fit of the model and its predictions on the test data.
+                The **red line** is *the true function* and the **blue line** is the *predicted function*. Surrounding the blue line, there is a *blue shaded area*. This is the uncertainty of the predicted model. To interpret this, it is important to note that predicted function is the *mean* of the distribution of probable functions. The blue shaded area is where 95% of the functions from this distribution is predicting. That also means that the larger the blue shaded area is, the more uncertain your model is.
+
+                ## Second plot
+                The second plot shows the distribution of errors on the test set. Positive values are cases where your model is predicting below the actual value and vice versa. The red vertical line shows the mean of the distribution of errors. Ideally, you want this to be zero, as your model is not skewed towards either over- or undershooting in its predictions. The blue vertical lines show 2 standard deviations away from the mean of errors. The blue line is the HDI of this distribution, which gives a more continuos visualization of the distribution.
+                '''
+
             '''
             ### My model looks crazy - what should I do?
             '''
@@ -734,6 +745,17 @@ else:
                     ax[1].set(title='Distribution of Error', xlabel='error', ylabel=None);
                     st.pyplot(fig)
                 st.success("Done plotting!")
+
+                expander = st.beta_expander("Explanation for the plot")
+                with expander:
+                    '''
+                    ## First plot
+                    The first plot shows the fit of the model and its predictions on the test data.
+                    The **red line** is *the true function* and the **blue line** is the *predicted function*. Surrounding the blue line, there is a *blue shaded area*. This is the uncertainty of the predicted model. To interpret this, it is important to note that predicted function is the *mean* of the distribution of probable functions. The blue shaded area is where 95% of the functions from this distribution is predicting. That also means that the larger the blue shaded area is, the more uncertain your model is.
+
+                    ## Second plot
+                    The second plot shows the distribution of errors on the test set. Positive values are cases where your model is predicting below the actual value and vice versa. The red vertical line shows the mean of the distribution of errors. Ideally, you want this to be zero, as your model is not skewed towards either over- or undershooting in its predictions. The blue vertical lines show 2 standard deviations away from the mean of errors. The blue line is the HDI of this distribution, which gives a more continuos visualization of the distribution.
+                    '''
 
                 col1, col2, col3 = st.beta_columns([1,6,1])
 
