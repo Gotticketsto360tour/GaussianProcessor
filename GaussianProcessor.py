@@ -121,6 +121,18 @@ if radio_checker == "Learning and simulating":
         submitted = st.form_submit_button("Simulate Data") 
 
         if submitted:
+            
+            x = np.atleast_2d(np.linspace(0, x_end, 1000)).T
+            x_test = np.atleast_2d(np.linspace(x_end, x_end+after_end, 500)).T
+            x = np.append(x, x_test)
+            fig, ax = plt.subplots(1, 1, figsize=(12, 5)) 
+            ax.plot(x, helper_functions.f(x, lin_trend, sinus, sinus_2, sinus_2_period, poly_trend), 'r:', label=rf'$f(x) = {lin_trend} \cdot x + {poly_trend} \cdot x^2 +{sinus} \cdot \sin(x) + {sinus_2} \cdot \sin({sinus_2_period} \cdot x)$')
+            ax.axvline(x_end, label = "train test split")
+            ax.set(xlabel = "$x$", ylabel = "$f(x)$")
+            ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.2),
+                fancybox=True, shadow=True, ncol=2)
+            st.pyplot(fig)
+
             expander = st.beta_expander("How is the data simulated?")
 
             with expander:
@@ -140,16 +152,6 @@ if radio_checker == "Learning and simulating":
                 ### Train and Test
                 The model currently sees {n} points between 0 and {x_end}. The RMSE is calculated for the test set. 
                 '''
-            x = np.atleast_2d(np.linspace(0, x_end, 1000)).T
-            x_test = np.atleast_2d(np.linspace(x_end, x_end+after_end, 500)).T
-            x = np.append(x, x_test)
-            fig, ax = plt.subplots(1, 1, figsize=(12, 5)) 
-            ax.plot(x, helper_functions.f(x, lin_trend, sinus, sinus_2, sinus_2_period, poly_trend), 'r:', label=rf'$f(x) = {lin_trend} \cdot x + {poly_trend} \cdot x^2 +{sinus} \cdot \sin(x) + {sinus_2} \cdot \sin({sinus_2_period} \cdot x)$')
-            ax.axvline(x_end, label = "train test split")
-            ax.set(xlabel = "$x$", ylabel = "$f(x)$")
-            ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.2),
-                fancybox=True, shadow=True, ncol=2)
-            st.pyplot(fig)
 
             ## success button
             st.success("Data has been simulated!")
