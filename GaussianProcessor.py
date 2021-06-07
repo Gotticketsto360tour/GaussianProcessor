@@ -167,7 +167,7 @@ if radio_checker == "Learning and simulating":
             kernel_select = st.sidebar.multiselect("Select Kernels", ["RationalQuadratic", "ExpSineSquared", "DotProduct", "WhiteKernel", "RBF", "Matern", "DotProduct Squared"], "DotProduct")
 
             if kernel_select:
-                st.sidebar.header("Kernels")
+                st.sidebar.header("Adjust your kernels")
 
             if "RationalQuadratic" in kernel_select:
 
@@ -556,7 +556,7 @@ else:
             kernel_select = st.sidebar.multiselect("Select Kernels", ["RationalQuadratic", "ExpSineSquared", "DotProduct", "WhiteKernel", "RBF", "Matern", "DotProduct Squared"], "DotProduct")
 
             if kernel_select:
-                st.sidebar.header("Kernels")
+                st.sidebar.header("Adjust your kernels")
 
             if "DotProduct" in kernel_select:
 
