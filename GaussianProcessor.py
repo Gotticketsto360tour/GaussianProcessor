@@ -50,7 +50,7 @@ if radio_checker == "Learning and simulating":
     # Learning and simulating
     '''
     '''
-    Welcome to the **Gaussian Processor**! Click the button below to start simulating data.'''
+    Welcome to the **Gaussian Processor**!'''
     
     #started = st.button("I am ready to start!")
 
