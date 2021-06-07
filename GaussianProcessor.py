@@ -849,4 +849,4 @@ y_pred_test, sigma_test = gp.predict(x_test, return_std=True)
 # (23) Make the learning mode have the same "pop-up" with kernels
 # (25) It is still extreeeemely volatile - even remotely large datasets breaks it. Write section about volatility as main part of future work.
 # (26) Maybe include default "None" to choose what you want to do, so that it is empty to begin with
-# (27) Include more descriptions of stuff, people don't get it :D 
+# (28) Include a landing page :) 
