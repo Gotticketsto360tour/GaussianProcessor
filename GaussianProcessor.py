@@ -177,6 +177,8 @@ if radio_checker == "Learning and simulating":
                 
                 interpret_dict["RationalQuadratic"] = rational_weight * RationalQuadratic(length_scale = rational, alpha = alpha)
                 string_dict["RationalQuadratic"] = '''### RationalQuadratic
+
+#### Intuition
 The *Rational Quadratic* can be seen as an infinite sum of RBF kernels. If you are trying to capture a non-linear trend, this is a good option.
 
 #### Mathematical equation
@@ -194,6 +196,8 @@ where $d(.,.)$ is the Euclidean distance.
                 
                 interpret_dict["DotProduct"] = dot_weight * DotProduct(sigma_0 = sigma_dot)
                 string_dict["DotProduct"] = '''### DotProduct 
+
+#### Intuition
 The *Dot Product* can be viewed as a linear kernel. It can be used to sample from models that capture the linear trend in the data.
 
 #### Mathematical equation
@@ -208,6 +212,8 @@ $$k(x_i, x_j) = \sigma ^2 _0 + x_i \cdot x_j$$
 
                 interpret_dict["DotProduct Squared"] = dot_squared_weight * DotProduct(sigma_0=squared_sigma) * DotProduct(sigma_0=squared_sigma)
                 string_dict["DotProduct Squared"] = '''### DotProduct Squared
+
+#### Intuition
 The *Dot Product Squared* is maybe not surprisingly a polynomial kernel. It can be used to sample from models that capture a quadratic trend in the data.
 
 #### Mathematical equation
@@ -226,6 +232,8 @@ $$k(x_i, x_j) = (\sigma ^2 _0 + x_i \cdot x_j)^2$$
 
                 interpret_dict["ExpSineSquared"] = sine_weight * ExpSineSquared(length_scale = exp_sine_1, periodicity = exp_sine_1_period)
                 string_dict["ExpSineSquared"] = '''### ExpSineSquared
+
+#### Intuition
 The *Exponential Sine Squared* kernels can be used to sample models that capture the periodic/cyclical relations in the data. This is also the only kernel which has a "mode". The reason for this is to model if the seasonality changes as a function of time. This is only available if the DotProduct kernel is also chosen. 
 
 #### Mathematical equation
@@ -239,6 +247,8 @@ $$k(x_i, x_j) = \exp \\left(- \\frac{2 \sin(\pi d (x_i, x_j)/p)}{l^2}\\right)$$
 
                 interpret_dict["RBF"] = rbf_weight * RBF(length_scale=rbf)
                 string_dict["RBF"] = '''### RBF
+
+#### Intuition
 The *RGF* kernel treats points that are close to each other in $x$ as being close in $y$. Sometimes this is also called the squared exponential kernel.
 
 #### Mathematical equation
@@ -254,6 +264,8 @@ $$k(x_i, x_j) = \exp \\left(- \\frac{d(x_i, x_j)^2}{2l^2})\\right)$$
                 
                 interpret_dict["Matern"] = matern_weight * Matern(length_scale=matern_length, nu = matern_nu)
                 string_dict["Matern"] = '''### Matern
+
+#### Intuition
 The Matern Kernel is a generalization of the RBF kernel. Similarly, it can be used when you want to model that points which are close in $x$ also are close in $y$ (contiounous functions).
 The Matern Kernel also has the parameter $\\nu$ (nu), which controls the smoothness of the resulting function. As this number grows, it becomes more and more like the RBF kernel.
 
@@ -272,6 +284,8 @@ where $d(.,.)$ is the Euclidean distance, $K_{\\nu }(.)$ is a modified Bessel fu
 
                 interpret_dict["WhiteKernel"] = white_weight * WhiteKernel(white_noise)
                 string_dict["WhiteKernel"] = ''' ### White Kernel
+
+#### Intuition
 The *White Kernel* is white noise and can be used to model noise (i.e. measurement errors) in the data. Furthermore, it is useful to make the model fit the data.'''
 
             submitted_sidebar = st.form_submit_button("Fit the Model")
