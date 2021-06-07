@@ -158,6 +158,7 @@ if radio_checker == "Learning and simulating":
             st.success("Try exploring different kernels in the sidebar to the left. When you are ready, press the *Fit the Model*-button.")
 
     with st.sidebar.form("my_sidebar_form"):
+            st.sidebar.header('The Kernel Sidebar')
 
             ### initialize interpret dict
 
@@ -548,6 +549,7 @@ else:
         ### TESTING:
 
         with st.sidebar.form("my_sidebar_form"):
+            st.sidebar.header('The Kernel Sidebar')
 
             ### initialize interpret dict
 
