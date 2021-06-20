@@ -37,6 +37,22 @@ st.image("bayes_bois.png", width = 100)
 # Gaussian Processor
 '''
 
+## get in touch:
+
+col1, col2 = st.beta_columns([3,5])
+with col1:
+
+    '''
+    [![Github Follow](https://img.shields.io/github/followers/Gotticketsto360tour?style=social)](https://github.com/Gotticketsto360tour/GaussianProcessor)
+    '''
+##google forms?
+with col2:
+
+    '''
+    [Click here to improve the app with Google Forms](https://forms.gle/j3FhW6W2PbREkT3P6)
+    '''
+
+
 ### GLOBAL PARAMS
 radio_checker = st.selectbox("What do you want to do?", ["Learning and simulating", "Upload my own data"])
 
@@ -855,6 +871,17 @@ y_pred_test, sigma_test = gp.predict(x_test, return_std=True)
                 f'<a href="data:file/csv;base64,{coded_data}" download="GP_predictions.csv">Click here to download the .csv file with predictions</a>',
                 unsafe_allow_html = True
             )
+
+'''
+## Need more resources?
+'''
+with st.beta_expander("Useful links for further investigation"):
+    '''
+    [Guide for understanding Gaussian Processes](https://distill.pub/2019/visual-exploration-gaussian-processes/)
+
+    [Guide for how sampling works in Gaussian Processes](http://www.infinitecuriosity.org/vizgp/)
+
+    '''
 
 
 ## TODO:
